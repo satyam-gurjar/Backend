@@ -1,8 +1,7 @@
 const express = require("express");
+const parser = require('body-parser');
 
 const app = express();
-
-
 
 app.use((req,res,next)=>{
   console.log('first Dummy Middleware',req.url,req.method);
@@ -29,15 +28,19 @@ app.get("/contact",(req,res,next)=>{
   res.send(
     `<h1>Enter your detail</h1>
     <form action="/contact" method="POST">
-      <input type="text" placeholder="Enter Your Name" />
-      <input type="email" placeholder="Enter Your Email" />
+      <input type="text" name="name" placeholder="Enter Your Name" />
+      <input type="email" name="email" placeholder="Enter Your Email" />
       <input type="submit"/>
     `)
 })
 
 
+
+app.use(parser.urlencoded())
+
+
 app.post("/contact",(req,res,next)=>{
-  console.log( `Handling contact  for post`,req.url,req.method);
+  console.log( `Handling contact  for post`,req.url,req.method,req.body);
   res.send("<h2>your details</h2>")
 })
 
